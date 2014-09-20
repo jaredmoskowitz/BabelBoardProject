@@ -541,6 +541,7 @@
 				E0D78D5E19CD6968008E2132 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E0D78D5F19CD6968008E2132 /* Build configuration list for PBXNativeTarget "BabelBoardProjectTests" */ = {
 			isa = XCConfigurationList;
@@ -549,6 +550,7 @@
 				E0D78D6119CD6968008E2132 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E0D78D7119CD6989008E2132 /* Build configuration list for PBXNativeTarget "BabelBoard" */ = {
 			isa = XCConfigurationList;
@@ -557,6 +559,7 @@
 				E0D78D7319CD6989008E2132 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

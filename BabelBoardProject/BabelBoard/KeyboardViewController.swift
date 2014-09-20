@@ -23,6 +23,9 @@ class KeyboardViewController: UIInputViewController {
     let spaceHeight: CGFloat = 40
     let nextWidth: CGFloat = 50
     
+    
+    var translationTextScrollView: UIScrollView?
+    var translationView: UIView?
     var buttons: Array<UIButton> = []
     var shiftKey: UIButton?
     var deleteKey: UIButton?
@@ -35,6 +38,8 @@ class KeyboardViewController: UIInputViewController {
     var spacePressed = false
     var spaceTimer: NSTimer?
     
+    let spacing: CGFloat = 4.0
+
     override func updateViewConstraints() {
         super.updateViewConstraints()
     }
@@ -49,10 +54,19 @@ class KeyboardViewController: UIInputViewController {
         border.backgroundColor = UIColor(red: 210.0/255, green: 205.0/255, blue: 193.0/255, alpha: 1)
         self.view.addSubview(border)
     
+        let plusButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: nil, action: nil)
+        var toolbarButtons = [plusButton];
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.setItems(toolbarButtons, animated: true)
+        toolbar.backgroundColor = UIColor.whiteColor()
+        
+        
+        self.inputAccessoryView?.addSubview(toolbar)
         
         self.addKeys()
     }
-    
     
     
     func addKeys() {
