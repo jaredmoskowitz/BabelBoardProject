@@ -5,9 +5,9 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>53B75ADC-834C-4E92-9294-E07951B03572</string>
+	<string>E20DFA9B-8A8E-4259-AD83-49DDF0B2F38B</string>
 	<key>IDESourceControlProjectName</key>
-	<string>BabelBoardProject</string>
+	<string>BabelBoardProjectWorkspace</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
@@ -16,13 +16,13 @@
 		<string>https://github.com/jaredmoskowitz/BabelBoardProject.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BabelBoardProject/BabelBoardProject.xcodeproj</string>
+	<string>BabelBoardProjectWorkspace.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
-		<string>../../../BabelBoardProject/Alamofire/</string>
+		<string>..BabelBoardProject/Alamofire</string>
 		<key>EFBCF2148A81F160CA374361087F7F69E8B54AF6</key>
-		<string>../../..</string>
+		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/jaredmoskowitz/BabelBoardProject.git</string>

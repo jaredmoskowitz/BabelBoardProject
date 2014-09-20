@@ -1,0 +1,6 @@
+[submodule "BabelBoardProject/Alamofire"]
+	path = BabelBoardProject/Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
+[submodule "Alamofire"]
+	path = Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
