@@ -13,6 +13,9 @@
 		E0D78D4A19CD6968008E2132 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0D78D4919CD6968008E2132 /* Images.xcassets */; };
 		E0D78D4D19CD6968008E2132 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D78D4B19CD6968008E2132 /* LaunchScreen.xib */; };
 		E0D78D5919CD6968008E2132 /* BabelBoardProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D5819CD6968008E2132 /* BabelBoardProjectTests.swift */; };
+		E0D78D6B19CD6989008E2132 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */; };
+		E0D78D6E19CD6989008E2132 /* BabelBoard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E0D78D6619CD6989008E2132 /* BabelBoard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E0D78D7619CD6A07008E2132 /* KeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D7519CD6A07008E2132 /* KeyButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +26,35 @@
 			remoteGlobalIDString = E0D78D3C19CD6968008E2132;
 			remoteInfo = BabelBoardProject;
 		};
+		E0D78D6C19CD6989008E2132 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0D78D3519CD6968008E2132 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0D78D6519CD6989008E2132;
+			remoteInfo = BabelBoard;
+		};
+		E0D78D6F19CD6989008E2132 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0D78D3519CD6968008E2132 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0D78D6519CD6989008E2132;
+			remoteInfo = BabelBoard;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E0D78D7419CD6989008E2132 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E0D78D6E19CD6989008E2132 /* BabelBoard.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E0D78D3D19CD6968008E2132 /* BabelBoardProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabelBoardProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +67,10 @@
 		E0D78D5219CD6968008E2132 /* BabelBoardProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabelBoardProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D78D5719CD6968008E2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0D78D5819CD6968008E2132 /* BabelBoardProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabelBoardProjectTests.swift; sourceTree = "<group>"; };
+		E0D78D6619CD6989008E2132 /* BabelBoard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BabelBoard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0D78D6919CD6989008E2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		E0D78D7519CD6A07008E2132 /* KeyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +88,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0D78D6319CD6989008E2132 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -61,6 +103,7 @@
 			children = (
 				E0D78D3F19CD6968008E2132 /* BabelBoardProject */,
 				E0D78D5519CD6968008E2132 /* BabelBoardProjectTests */,
+				E0D78D6719CD6989008E2132 /* BabelBoard */,
 				E0D78D3E19CD6968008E2132 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +113,7 @@
 			children = (
 				E0D78D3D19CD6968008E2132 /* BabelBoardProject.app */,
 				E0D78D5219CD6968008E2132 /* BabelBoardProjectTests.xctest */,
+				E0D78D6619CD6989008E2132 /* BabelBoard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +156,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E0D78D6719CD6989008E2132 /* BabelBoard */ = {
+			isa = PBXGroup;
+			children = (
+				E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */,
+				E0D78D7519CD6A07008E2132 /* KeyButton.swift */,
+				E0D78D6819CD6989008E2132 /* Supporting Files */,
+			);
+			path = BabelBoard;
+			sourceTree = "<group>";
+		};
+		E0D78D6819CD6989008E2132 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E0D78D6919CD6989008E2132 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,10 +184,13 @@
 				E0D78D3919CD6968008E2132 /* Sources */,
 				E0D78D3A19CD6968008E2132 /* Frameworks */,
 				E0D78D3B19CD6968008E2132 /* Resources */,
+				E0D78D7419CD6989008E2132 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E0D78D6D19CD6989008E2132 /* PBXTargetDependency */,
+				E0D78D7019CD6989008E2132 /* PBXTargetDependency */,
 			);
 			name = BabelBoardProject;
 			productName = BabelBoardProject;
@@ -150,6 +215,23 @@
 			productReference = E0D78D5219CD6968008E2132 /* BabelBoardProjectTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E0D78D6519CD6989008E2132 /* BabelBoard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0D78D7119CD6989008E2132 /* Build configuration list for PBXNativeTarget "BabelBoard" */;
+			buildPhases = (
+				E0D78D6219CD6989008E2132 /* Sources */,
+				E0D78D6319CD6989008E2132 /* Frameworks */,
+				E0D78D6419CD6989008E2132 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BabelBoard;
+			productName = BabelBoard;
+			productReference = E0D78D6619CD6989008E2132 /* BabelBoard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,6 +247,9 @@
 					E0D78D5119CD6968008E2132 = {
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = E0D78D3C19CD6968008E2132;
+					};
+					E0D78D6519CD6989008E2132 = {
+						CreatedOnToolsVersion = 6.0;
 					};
 				};
 			};
@@ -183,6 +268,7 @@
 			targets = (
 				E0D78D3C19CD6968008E2132 /* BabelBoardProject */,
 				E0D78D5119CD6968008E2132 /* BabelBoardProjectTests */,
+				E0D78D6519CD6989008E2132 /* BabelBoard */,
 			);
 		};
 /* End PBXProject section */
@@ -199,6 +285,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E0D78D5019CD6968008E2132 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0D78D6419CD6989008E2132 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -225,6 +318,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0D78D6219CD6989008E2132 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0D78D6B19CD6989008E2132 /* KeyboardViewController.swift in Sources */,
+				E0D78D7619CD6A07008E2132 /* KeyButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -232,6 +334,16 @@
 			isa = PBXTargetDependency;
 			target = E0D78D3C19CD6968008E2132 /* BabelBoardProject */;
 			targetProxy = E0D78D5319CD6968008E2132 /* PBXContainerItemProxy */;
+		};
+		E0D78D6D19CD6989008E2132 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0D78D6519CD6989008E2132 /* BabelBoard */;
+			targetProxy = E0D78D6C19CD6989008E2132 /* PBXContainerItemProxy */;
+		};
+		E0D78D7019CD6989008E2132 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0D78D6519CD6989008E2132 /* BabelBoard */;
+			targetProxy = E0D78D6F19CD6989008E2132 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -386,6 +498,30 @@
 			};
 			name = Release;
 		};
+		E0D78D7219CD6989008E2132 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = BabelBoard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E0D78D7319CD6989008E2132 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = BabelBoard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -411,6 +547,14 @@
 			buildConfigurations = (
 				E0D78D6019CD6968008E2132 /* Debug */,
 				E0D78D6119CD6968008E2132 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E0D78D7119CD6989008E2132 /* Build configuration list for PBXNativeTarget "BabelBoard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0D78D7219CD6989008E2132 /* Debug */,
+				E0D78D7319CD6989008E2132 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

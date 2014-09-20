@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BabelBoard.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>BabelBoardProject.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>E0D78D5119CD6968008E2132</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0D78D6519CD6989008E2132</key>
 		<dict>
 			<key>primary</key>
 			<true/>
