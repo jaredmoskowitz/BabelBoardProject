@@ -42,50 +42,94 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        var heightConstraint = NSLayoutConstraint(item: self.view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 4.0, constant:500)
-        self.view .addConstraint(heightConstraint)
-        
         self.view.backgroundColor = UIColor(red: 241.0/255, green: 235.0/255, blue: 221.0/255, alpha: 1)
         
         let border = UIView(frame: CGRect(x:CGFloat(0.0), y:CGFloat(0.0), width:self.view.frame.size.width, height:CGFloat(0.5)))
         border.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         border.backgroundColor = UIColor(red: 210.0/255, green: 205.0/255, blue: 193.0/255, alpha: 1)
         self.view.addSubview(border)
+    
         
-        
-        
-        var thirdRowTopPadding: CGFloat = topPadding + (keyHeight + rowSpacing) * 2
-        shiftKey = KeyButton(frame: CGRect(x: 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
-        shiftKey!.addTarget(self, action: Selector("shiftKeyPressed:"), forControlEvents: .TouchUpInside)
-        shiftKey!.selected = true
-        shiftKey!.setImage(UIImage(named: "shift.png"), forState:.Normal)
-        shiftKey!.setImage(UIImage(named: "shift-selected.png"), forState:.Selected)
-        self.view.addSubview(shiftKey!)
-        
-        deleteKey = KeyButton(frame: CGRect(x:320 - shiftWidth - 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
-        deleteKey!.addTarget(self, action: Selector("deleteKeyPressed:"), forControlEvents: .TouchUpInside)
-        deleteKey!.setImage(UIImage(named: "delete.png"), forState:.Normal)
-        deleteKey!.setImage(UIImage(named: "delete-selected.png"), forState:.Highlighted)
-        self.view.addSubview(deleteKey!)
-        
-        var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
-        spaceKey = KeyButton(frame: CGRect(x:(320.0 - spaceWidth) / 2, y: bottomRowTopPadding, width:spaceWidth, height:spaceHeight))
-        spaceKey!.setTitle(" ", forState: .Normal)
-        spaceKey!.addTarget(self, action: Selector("keyPressed:"), forControlEvents: .TouchUpInside)
-        self.view.addSubview(spaceKey!)
-        
-        nextKeyboardButton = KeyButton(frame:CGRect(x:2, y: bottomRowTopPadding, width:nextWidth, height:spaceHeight))
-        nextKeyboardButton!.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size:18)
-        nextKeyboardButton!.setTitle(NSLocalizedString("Next", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
-        nextKeyboardButton!.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
-        view.addSubview(self.nextKeyboardButton!)
+        self.addKeys()
+    }
+    
+    
+    
+    func addKeys() {
+        self.addNextKeyboardKey()
+        self.addDeleteKey()
+        self.addQwertyKeys()
+        self.addReturnKey()
+        self.addShiftKey()
+        self.addSpaceKey()
+    }
+    
+    func addReturnKey() {
+         var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
         
         returnButton = KeyButton(frame: CGRect(x:320 - nextWidth - 2, y: bottomRowTopPadding, width:nextWidth, height:spaceHeight))
         returnButton!.setTitle(NSLocalizedString("Ret", comment: "Title for 'Return Key' button"), forState:.Normal)
         returnButton!.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size:18)
         returnButton!.addTarget(self, action: "returnKeyPressed:", forControlEvents: .TouchUpInside)
         self.view.addSubview(returnButton!)
+    }
+    
+    func addDeleteKey() {
+        var thirdRowTopPadding: CGFloat = topPadding + (keyHeight + rowSpacing) * 2
+        
+        deleteKey = KeyButton(frame: CGRect(x:320 - shiftWidth - 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
+        deleteKey!.addTarget(self, action: Selector("deleteKeyPressed:"), forControlEvents: .TouchUpInside)
+        deleteKey!.setImage(UIImage(named: "delete.png"), forState:.Normal)
+        deleteKey!.setImage(UIImage(named: "delete-selected.png"), forState:.Highlighted)
+        self.view.addSubview(deleteKey!)
+    }
+    
+    func addNextKeyboardKey() {
+        var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
+        
+        nextKeyboardButton = KeyButton(frame:CGRect(x:2, y: bottomRowTopPadding, width:nextWidth, height:spaceHeight))
+        nextKeyboardButton!.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size:18)
+        nextKeyboardButton!.setTitle(NSLocalizedString("Next", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
+        nextKeyboardButton!.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
+        view.addSubview(self.nextKeyboardButton!)
+    }
+    
+    func addSpaceKey() {
+        var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
+        
+        spaceKey = KeyButton(frame: CGRect(x:(320.0 - spaceWidth) / 2, y: bottomRowTopPadding, width:spaceWidth, height:spaceHeight))
+        spaceKey!.setTitle(" ", forState: .Normal)
+        spaceKey!.addTarget(self, action: Selector("keyPressed:"), forControlEvents: .TouchUpInside)
+        self.view.addSubview(spaceKey!)
+    }
+    
+    func returnKeyPressed(sender: UIButton) {
+        var proxy = self.textDocumentProxy as UITextDocumentProxy
+        proxy.insertText("\n")
+        numCharacters++
+        shiftPosArr[shiftPosArr.count - 1]++
+        if shiftKey!.selected {
+            shiftPosArr.append(0)
+            setShiftValue(true)
+        }
+        
+        spacePressed = false
+    }
+    
+    
+    func addShiftKey() {
+        var thirdRowTopPadding: CGFloat = topPadding + (keyHeight + rowSpacing) * 2
+        
+        shiftKey = KeyButton(frame: CGRect(x: 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
+        shiftKey!.addTarget(self, action: Selector("shiftKeyPressed:"), forControlEvents: .TouchUpInside)
+        shiftKey!.selected = true
+        shiftKey!.setImage(UIImage(named: "shift.png"), forState:.Normal)
+        shiftKey!.setImage(UIImage(named: "shift-selected.png"), forState:.Selected)
+        self.view.addSubview(shiftKey!)
+    }
+    
+    
+    func addQwertyKeys() {
         
         var y: CGFloat = topPadding
         var width = UIScreen.mainScreen().applicationFrame.size.width
@@ -107,18 +151,6 @@ class KeyboardViewController: UIInputViewController {
         }
     }
     
-    func returnKeyPressed(sender: UIButton) {
-        var proxy = self.textDocumentProxy as UITextDocumentProxy
-        proxy.insertText("\n")
-        numCharacters++
-        shiftPosArr[shiftPosArr.count - 1]++
-        if shiftKey!.selected {
-            shiftPosArr.append(0)
-            setShiftValue(true)
-        }
-        
-        spacePressed = false
-    }
     
     func deleteKeyPressed(sender: UIButton) {
         if numCharacters > 0 {
