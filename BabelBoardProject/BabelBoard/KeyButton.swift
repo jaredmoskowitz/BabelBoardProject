@@ -22,7 +22,7 @@ class KeyButton: UIButton {
         self.layer.borderColor = UIColor(red: 216.0/255, green: 211.0/255, blue: 199.0/255, alpha: 1).CGColor
         self.layer.cornerRadius = 3
         
-        self.backgroundColor = UIColor(red: 248.0/255, green: 242.0/255, blue: 227.0/255, alpha: 1)
+        self.backgroundColor = UIColor(red: 216.0/255, green: 211.0/255, blue: 199.0/255, alpha: 1)
         self.contentVerticalAlignment = .Center
         self.contentHorizontalAlignment = .Center
     }

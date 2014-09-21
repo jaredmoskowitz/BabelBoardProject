@@ -10,13 +10,13 @@ import UIKit
 import Alamofire
 
 class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate {
-    let rows = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+    let alphabeticalRows = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
         ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
         ["z", "x", "c", "v", "b", "n", "m"]]
     
     let mathematicalRows = [["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
         ["+", "-", "*", "/", "(", ")", "^", "ln", "log"],
-        ["e", "pi", "%", "d", "b", "n", "m"]]
+        ["e", "pi", "%", "cos", "sin", "tan", "1"]]
     
     let languages = ["es", "fr", "math", "la", "de"]
     var currentRows: [Array<String>]!
@@ -29,6 +29,7 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     let keySpacing: CGFloat = 6
     let rowSpacing: CGFloat = 15
     let shiftWidth: CGFloat = 40
+    
     let shiftHeight: CGFloat = 40
     let spaceWidth: CGFloat = 210
     let spaceHeight: CGFloat = 40
@@ -45,12 +46,12 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     var translationTextScrollView: UIScrollView?
     var translationView: UIView?
     var buttons: Array<UIButton> = []
-    var shiftKey: UIButton?
+    var languageKey: UIButton?
     var deleteKey: UIButton?
     var spaceKey: UIButton?
     var nextKeyboardButton: KeyButton?
     var returnButton: KeyButton?
-    
+    var calculation = ""
     var shiftPosArr = [0]
     var numCharacters = 0
     var untranslatedStartIndex = 0
@@ -68,13 +69,16 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 241.0/255, green: 235.0/255, blue: 221.0/255, alpha: 1)
         
-        untranslatedString = ""
+        untranslatedString = " "
+        untranslatedStartIndex = 0
+         var proxy = self.textDocumentProxy as UITextDocumentProxy
+        proxy.insertText(" ")
 
         let border = UIView(frame: CGRect(x:CGFloat(0.0), y:CGFloat(0.0), width:self.view.frame.size.width, height:CGFloat(0.5)))
         border.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-        border.backgroundColor = UIColor(red: 210.0/255, green: 205.0/255, blue: 193.0/255, alpha: 1)
+        border.backgroundColor = UIColor(red: 0.70, green: 0.87, blue: 0.97, alpha: 1)
         self.view.addSubview(border)
-        
+        currentLanguageIndex = 0
         self.addKeys()
     }
     
@@ -88,9 +92,48 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     
     
     func setLanguage(lang: String) {
+        self.setKeyboard(lang)
+        self.setValues(lang)
+        currentLanguageIndex = find(languages, lang)!
+        var length = countElements(languages)
+        if currentLanguageIndex >= length {
+            currentLanguageIndex = 0
+        } else {
+            currentLanguageIndex++
+        }
         
     }
     
+    
+    func setKeyboard(lang: String) {
+        languageKey?.setTitle(lang, forState: .Normal)
+        if lang == "math" {
+            currentRows = mathematicalRows
+        } else {
+            currentRows = alphabeticalRows
+        }
+        self.changeQwertyKeys()
+    }
+    
+    
+    func changeQwertyKeys() {
+        var i = 0
+        for row in currentRows {
+            for label in row {
+                if i < countElements(buttons) {
+                    buttons[i].setTitle(label, forState: .Normal)
+                    buttons[i].addTarget(self, action: Selector("keyPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
+                    i++
+                }
+            }
+        }
+    }
+
+    
+    func setValues(lang: String) {
+        untranslatedStartIndex = 0
+        untranslatedString = " " //possible bug here
+    }
     
     func addKeys() {
         self.addNextKeyboardKey()
@@ -117,8 +160,7 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         deleteKey = KeyButton(frame: CGRect(x:320 - shiftWidth - 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
         deleteKey?.tag = DELETE_TAG
         deleteKey!.addTarget(self, action: Selector("deleteKeyPressed:"), forControlEvents: .TouchUpInside)
-        deleteKey!.setImage(UIImage(named: "delete.png"), forState:.Normal)
-        deleteKey!.setImage(UIImage(named: "delete-selected.png"), forState:.Highlighted)
+        deleteKey!.setImage(UIImage(named: "arrow415.png"), forState:.Normal)
         self.view.addSubview(deleteKey!)
     }
     
@@ -126,8 +168,7 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
         
         nextKeyboardButton = KeyButton(frame:CGRect(x:2, y: bottomRowTopPadding, width:nextWidth, height:spaceHeight))
-        nextKeyboardButton!.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size:18)
-        nextKeyboardButton!.setTitle(NSLocalizedString("Next", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
+        nextKeyboardButton!.setImage(UIImage(named: "globe14.png"), forState:.Normal)
         nextKeyboardButton!.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
         view.addSubview(self.nextKeyboardButton!)
     }
@@ -142,41 +183,32 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     }
     
     func returnKeyPressed(sender: UIButton) {
-        var proxy = self.textDocumentProxy as UITextDocumentProxy
-        while (untranslatedStartIndex > 0 ) {
-            proxy.deleteBackward()
-            untranslatedStartIndex--
-            numCharacters--
-        }
-        let str = spaceKey?.titleLabel?.text
-        proxy.insertText(str!)
-        numCharacters += countElements(untranslatedString)
-        untranslatedString = ""
-        untranslatedStartIndex = 0
-        spaceKey!.setTitle(" ", forState: .Normal)
-        
-//        proxy.insertText("\n")
-//        numCharacters++
-//        untranslatedStartIndex++
-//        shiftPosArr[shiftPosArr.count - 1]++
-//        if shiftKey!.selected {
-//            shiftPosArr.append(0)
-//            setShiftValue(true)
+//        var proxy = self.textDocumentProxy as UITextDocumentProxy
+//        while (untranslatedStartIndex > 0 ) {
+//            proxy.deleteBackward()
+//            untranslatedStartIndex--
+//            numCharacters--
 //        }
-//        
-//        spacePressed = false
+//        let str = spaceKey?.titleLabel?.text
+//        proxy.insertText(str!)
+//        numCharacters += countElements(untranslatedString)
+//        untranslatedString = " "
+//        untranslatedStartIndex = 0
+//        spaceKey!.setTitle(" ", forState: .Normal)
+
+        spacePressed = false
     }
     
     
     func addLanguageKey() {
         var thirdRowTopPadding: CGFloat = topPadding + (keyHeight + rowSpacing) * 2
         
-        shiftKey = KeyButton(frame: CGRect(x: 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
-        shiftKey!.addTarget(self, action: Selector("languageKeyPressed:"), forControlEvents: .TouchUpInside)
-        shiftKey!.selected = true
-        shiftKey!.setImage(UIImage(named: "shift.png"), forState:.Normal)
-        shiftKey!.setImage(UIImage(named: "shift-selected.png"), forState:.Selected)
-        self.view.addSubview(shiftKey!)
+        languageKey = KeyButton(frame: CGRect(x: 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
+        languageKey!.addTarget(self, action: Selector("languageKeyPressed:"), forControlEvents: .TouchUpInside)
+        languageKey!.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size:18)
+        languageKey!.setTitle(languages[0], forState: .Normal)
+        
+        self.view.addSubview(languageKey!)
     }
     
     
@@ -184,11 +216,11 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         
         var y: CGFloat = topPadding
         var width = UIScreen.mainScreen().applicationFrame.size.width
-        for row in rows {
+        for row in alphabeticalRows {
             var x: CGFloat = ceil((width - (CGFloat(row.count) - 1) * (keySpacing + keyWidth) - keyWidth) / 2.0)
             for label in row {
                 let button = KeyButton(frame: CGRect(x: x, y: y, width: keyWidth, height: keyHeight))
-                button.setTitle(label.uppercaseString, forState: .Normal)
+                button.setTitle(label, forState: .Normal)
                 button.addTarget(self, action: Selector("keyPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
                 //button.autoresizingMask = .FlexibleWidth | .FlexibleLeftMargin | .FlexibleRightMargin
                 button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 0)
@@ -213,17 +245,7 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
                 let stringLength = countElements(untranslatedString)
                 let substringIndex = stringLength - 1
                 untranslatedString = untranslatedString.substringToIndex(advance(untranslatedString.startIndex, substringIndex))
-            }
-            var charactersSinceShift = shiftPosArr[shiftPosArr.count - 1]
-            if charactersSinceShift > 0 {
-                charactersSinceShift--
-            }
-            
-            setShiftValue(charactersSinceShift == 0)
-            if charactersSinceShift == 0 && shiftPosArr.count > 1 {
-                shiftPosArr.removeLast()
-            } else {
-                shiftPosArr[shiftPosArr.count - 1] = charactersSinceShift
+                self.spaceKey?.titleLabel?.text = untranslatedString
             }
         }
         
@@ -233,11 +255,12 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     
     func languageKeyPressed(sender: UIButton) {
         
-        if currentLanguageIndex >= countElements(languages) {
+        currentLanguageIndex++
+        if currentLanguageIndex >= 5 {
             currentLanguageIndex = 0
-        } else {
-            currentLanguageIndex--
         }
+        
+        println(languages[currentLanguageIndex])
         
         self.setLanguage(languages[currentLanguageIndex])
         
@@ -252,26 +275,35 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         numCharacters++
         untranslatedStartIndex++
         untranslatedString += str!
-        self.translateIt(untranslatedString, lang: "es")
-        shiftPosArr[shiftPosArr.count - 1]++
+        self.translateIt(untranslatedString, lang: languages[currentLanguageIndex])
+        
         spacePressed = false
-        if (shiftKey!.selected) {
-            self.setShiftValue(false)
-        }
     }
     
     
     func spaceKeyPressed(sender: UIButton) {
         var proxy = self.textDocumentProxy as UITextDocumentProxy
         if spacePressed {
-            self.translateInline()
-            spacePressed = false
+            if(languages[currentLanguageIndex] == "math") {
+                while numCharacters > 0 {
+                    proxy.deleteBackward()
+                    numCharacters--
+                }
+                proxy.insertText(calculation)
+                numCharacters = 0
+                untranslatedString = " "
+                untranslatedStartIndex = 0
+                spacePressed = false
+            } else {
+                self.translateInline()
+                spacePressed = false
+            }
         } else {
             proxy.insertText(" ")
             untranslatedString += " "
             numCharacters++
             spacePressed = true
-            self.translateIt(untranslatedString, lang: "es")
+            self.translateIt(untranslatedString, lang: languages[currentLanguageIndex])
         }
     }
     
@@ -285,36 +317,19 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         var proxy = self.textDocumentProxy as UITextDocumentProxy
         var end = countElements(untranslatedString)
         //possible logic error here
-        while (untranslatedStartIndex <= end ) {
+        while (end > 0) {
             proxy.deleteBackward()
             end--
             numCharacters--
         }
         let str = spaceKey?.titleLabel?.text
-        proxy.insertText(str!)
+        proxy.insertText(str! + " ")
         numCharacters += countElements(untranslatedString)
-        untranslatedString = ""
+        untranslatedString = " "
         untranslatedStartIndex = 0
         spaceKey!.setTitle(" ", forState: .Normal)
     }
     
-    
-    func setShiftValue(shiftVal: Bool) {
-        if shiftKey?.selected != shiftVal {
-            shiftKey!.selected = shiftVal
-            for button in buttons {
-                var text = button.titleLabel?.text
-                if shiftKey!.selected {
-                    text = text?.uppercaseString
-                } else {
-                    text = text?.lowercaseString
-                }
-                
-                button.setTitle(text, forState: UIControlState.Normal)
-                button.titleLabel?.sizeToFit()
-            }
-        }
-    }
     
     func translateIt(message: String, lang: String){
         println("MESSAGE: " + message)
@@ -353,6 +368,19 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         }
         
     }
+    
+    
+    func connection(connection: NSURLConnection, didReceiveData data: NSData) {
+        connectionResponse = data
+        let dat: AnyObject = data as AnyObject
+        var error: NSError?
+        var json: JSONValue?
+        if let jsonObj: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)  {
+            let JSONObject = JSONValue(jsonObj!)
+            self.calculation = JSONObject["result"].string!
+        }
+    }
+
     
     override func textWillChange(textInput: UITextInput) {
         // The app is about to change the document's contents. Perform any preparation here.

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E008E1B719CF0BDE00528E0E /* globe14.png in Resources */ = {isa = PBXBuildFile; fileRef = E008E1B619CF0BDE00528E0E /* globe14.png */; };
+		E008E1B919CF0C0100528E0E /* arrow415.png in Resources */ = {isa = PBXBuildFile; fileRef = E008E1B819CF0C0100528E0E /* arrow415.png */; };
 		E0D78D4319CD6968008E2132 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D4219CD6968008E2132 /* AppDelegate.swift */; };
 		E0D78D4519CD6968008E2132 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D4419CD6968008E2132 /* ViewController.swift */; };
 		E0D78D4819CD6968008E2132 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0D78D4619CD6968008E2132 /* Main.storyboard */; };
@@ -80,6 +82,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E008E1B619CF0BDE00528E0E /* globe14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = globe14.png; sourceTree = "<group>"; };
+		E008E1B819CF0C0100528E0E /* arrow415.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow415.png; sourceTree = "<group>"; };
 		E0D78D3D19CD6968008E2132 /* BabelBoardProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabelBoardProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D78D4119CD6968008E2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0D78D4219CD6968008E2132 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 		E0D78D6719CD6989008E2132 /* BabelBoard */ = {
 			isa = PBXGroup;
 			children = (
+				E008E1B619CF0BDE00528E0E /* globe14.png */,
+				E008E1B819CF0C0100528E0E /* arrow415.png */,
 				E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */,
 				E0D78D7519CD6A07008E2132 /* KeyButton.swift */,
 				E0D78D6819CD6989008E2132 /* Supporting Files */,
@@ -327,6 +333,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E008E1B919CF0C0100528E0E /* arrow415.png in Resources */,
+				E008E1B719CF0BDE00528E0E /* globe14.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
