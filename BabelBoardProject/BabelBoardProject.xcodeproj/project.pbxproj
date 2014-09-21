@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E068E6C719CEA8DE00E50B64 /* globe14.png in Resources */ = {isa = PBXBuildFile; fileRef = E068E6C619CEA8DE00E50B64 /* globe14.png */; };
+		E068E6CB19CEC01D00E50B64 /* icon_globe24.png in Resources */ = {isa = PBXBuildFile; fileRef = E068E6CA19CEC01D00E50B64 /* icon_globe24.png */; };
+		E068E6CD19CEC09400E50B64 /* arrow415.png in Resources */ = {isa = PBXBuildFile; fileRef = E068E6CC19CEC09400E50B64 /* arrow415.png */; };
+		E068E6CF19CEC13200E50B64 /* arrow415highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = E068E6CE19CEC13200E50B64 /* arrow415highlighted.png */; };
 		E0D78D4319CD6968008E2132 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D4219CD6968008E2132 /* AppDelegate.swift */; };
 		E0D78D4519CD6968008E2132 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D4419CD6968008E2132 /* ViewController.swift */; };
 		E0D78D4819CD6968008E2132 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0D78D4619CD6968008E2132 /* Main.storyboard */; };
@@ -80,6 +84,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E068E6C619CEA8DE00E50B64 /* globe14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = globe14.png; sourceTree = "<group>"; };
+		E068E6CA19CEC01D00E50B64 /* icon_globe24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_globe24.png; sourceTree = "<group>"; };
+		E068E6CC19CEC09400E50B64 /* arrow415.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow415.png; sourceTree = "<group>"; };
+		E068E6CE19CEC13200E50B64 /* arrow415highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow415highlighted.png; sourceTree = "<group>"; };
 		E0D78D3D19CD6968008E2132 /* BabelBoardProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabelBoardProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D78D4119CD6968008E2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0D78D4219CD6968008E2132 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -188,6 +196,10 @@
 			isa = PBXGroup;
 			children = (
 				E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */,
+				E068E6CE19CEC13200E50B64 /* arrow415highlighted.png */,
+				E068E6CC19CEC09400E50B64 /* arrow415.png */,
+				E068E6CA19CEC01D00E50B64 /* icon_globe24.png */,
+				E068E6C619CEA8DE00E50B64 /* globe14.png */,
 				E0D78D7519CD6A07008E2132 /* KeyButton.swift */,
 				E0D78D6819CD6989008E2132 /* Supporting Files */,
 			);
@@ -327,6 +339,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E068E6CF19CEC13200E50B64 /* arrow415highlighted.png in Resources */,
+				E068E6CB19CEC01D00E50B64 /* icon_globe24.png in Resources */,
+				E068E6C719CEA8DE00E50B64 /* globe14.png in Resources */,
+				E068E6CD19CEC09400E50B64 /* arrow415.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

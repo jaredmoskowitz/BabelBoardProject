@@ -18,11 +18,11 @@ class KeyButton: UIButton {
         self.setTitleColor(UIColor(white: 68.0/255, alpha: 1), forState: UIControlState.Normal)
         self.titleLabel?.sizeToFit()
         
-        self.layer.borderWidth = 0.5
+        self.layer.borderWidth = 0.8
         self.layer.borderColor = UIColor(red: 216.0/255, green: 211.0/255, blue: 199.0/255, alpha: 1).CGColor
-        self.layer.cornerRadius = 3
+        self.layer.cornerRadius = 1.5
         
-        self.backgroundColor = UIColor(red: 248.0/255, green: 242.0/255, blue: 227.0/255, alpha: 1)
+        self.backgroundColor = UIColor(red: 0.70, green: 0.87, blue: 0.97, alpha: 0)
         self.contentVerticalAlignment = .Center
         self.contentHorizontalAlignment = .Center
     }

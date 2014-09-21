@@ -16,8 +16,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        println("viewDidLoad in app")
         // Do any additional setup after loading the view, typically from a nib.
-        textField.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
