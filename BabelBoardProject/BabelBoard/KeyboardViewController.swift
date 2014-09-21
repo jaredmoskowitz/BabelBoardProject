@@ -24,6 +24,9 @@ class KeyboardViewController: UIInputViewController {
     let spaceHeight: CGFloat = 40
     let nextWidth: CGFloat = 50
     
+    let DELETE_TAG = 1
+    let SPACE_TAG = 0
+    
     
     var translationTextScrollView: UIScrollView?
     var translationView: UIView?
@@ -36,6 +39,7 @@ class KeyboardViewController: UIInputViewController {
     
     var shiftPosArr = [0]
     var numCharacters = 0
+    var untranslatedStartIndex = 0
     var untranslatedString = ""
     var spacePressed = false
     var spaceTimer: NSTimer?
@@ -51,7 +55,7 @@ class KeyboardViewController: UIInputViewController {
         self.view.backgroundColor = UIColor(red: 241.0/255, green: 235.0/255, blue: 221.0/255, alpha: 1)
         
         untranslatedString = ""
-        
+
         let border = UIView(frame: CGRect(x:CGFloat(0.0), y:CGFloat(0.0), width:self.view.frame.size.width, height:CGFloat(0.5)))
         border.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         border.backgroundColor = UIColor(red: 210.0/255, green: 205.0/255, blue: 193.0/255, alpha: 1)
@@ -110,6 +114,7 @@ class KeyboardViewController: UIInputViewController {
         var thirdRowTopPadding: CGFloat = topPadding + (keyHeight + rowSpacing) * 2
         
         deleteKey = KeyButton(frame: CGRect(x:320 - shiftWidth - 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
+        deleteKey?.tag = DELETE_TAG
         deleteKey!.addTarget(self, action: Selector("deleteKeyPressed:"), forControlEvents: .TouchUpInside)
         deleteKey!.setImage(UIImage(named: "delete.png"), forState:.Normal)
         deleteKey!.setImage(UIImage(named: "delete-selected.png"), forState:.Highlighted)
@@ -128,9 +133,9 @@ class KeyboardViewController: UIInputViewController {
     
     func addSpaceKey() {
         var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
-        
         spaceKey = KeyButton(frame: CGRect(x:(320.0 - spaceWidth) / 2, y: bottomRowTopPadding, width:spaceWidth, height:spaceHeight))
-        spaceKey!.setTitle("Space Bar", forState: .Normal)
+        spaceKey?.tag = SPACE_TAG
+        spaceKey!.setTitle(" ", forState: .Normal)
         spaceKey!.addTarget(self, action: Selector("keyPressed:"), forControlEvents: .TouchUpInside)
         self.view.addSubview(spaceKey!)
     }
@@ -139,6 +144,7 @@ class KeyboardViewController: UIInputViewController {
         var proxy = self.textDocumentProxy as UITextDocumentProxy
         proxy.insertText("\n")
         numCharacters++
+        untranslatedStartIndex++
         shiftPosArr[shiftPosArr.count - 1]++
         if shiftKey!.selected {
             shiftPosArr.append(0)
@@ -189,6 +195,7 @@ class KeyboardViewController: UIInputViewController {
             var proxy = self.textDocumentProxy as UITextDocumentProxy
             proxy.deleteBackward()
             numCharacters--
+            untranslatedStartIndex--
             let stringLength = countElements(untranslatedString)
             let substringIndex = stringLength - 1
             untranslatedString = untranslatedString.substringToIndex(advance(untranslatedString.startIndex, substringIndex))
@@ -224,15 +231,19 @@ class KeyboardViewController: UIInputViewController {
     
     func keyPressed(sender: UIButton) {
         var proxy = self.textDocumentProxy as UITextDocumentProxy
-        var str = sender.titleLabel?.text
-        if spacePressed && str == " " {
+        let str = sender.titleLabel?.text
+        if sender.tag == DELETE_TAG  {
             proxy.deleteBackward()
             proxy.insertText(". ")
             spacePressed = false
-        }
-        else {
+        } else if(sender.tag == SPACE_TAG && spacePressed) {
+            untranslatedStartIndex = 0
+            untranslatedString = ""
+        } else {
+            untranslatedString += str!
+            self.translateIt(untranslatedString, lang: "es")
             proxy.insertText(str!)
-            spacePressed = sender.titleLabel?.text == " "
+            spacePressed = sender.tag == 0
             if spacePressed {
                 spaceTimer?.invalidate()
                 spaceTimer = NSTimer.scheduledTimerWithTimeInterval(1,
@@ -241,11 +252,12 @@ class KeyboardViewController: UIInputViewController {
                     userInfo: nil,
                     repeats: false)
             }
+            
         }
-        untranslatedString = untranslatedString + str!
-        self.translateIt(untranslatedString, lang: "es")
+
         
         numCharacters++
+        untranslatedStartIndex++
         shiftPosArr[shiftPosArr.count - 1]++
         if (shiftKey!.selected) {
             self.setShiftValue(false)
