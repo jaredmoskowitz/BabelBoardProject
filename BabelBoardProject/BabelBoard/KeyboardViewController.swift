@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate {
-    let rows = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+    let rows = [["2", "+", "3", "*", "t", "y", "u", "i", "o", "p"],
         ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
         ["z", "x", "c", "v", "b", "n", "m"]]
     let topPadding: CGFloat = 12
@@ -252,7 +252,7 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         numCharacters++
         untranslatedStartIndex++
         untranslatedString += str!
-        self.translateIt(untranslatedString, lang: "es")
+        self.translateIt(untranslatedString, lang: "math")
         shiftPosArr[shiftPosArr.count - 1]++
         if (shiftKey!.selected) {
             self.setShiftValue(false)
@@ -295,14 +295,18 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         var mylink = ""
         if (lang == "math") {
             myparams = ["message": message]
-            mylink = "https://api.parse.com/1/functions/"
-            var request = NSMutableURLRequest(URL:NSURL.URLWithString("www.apple.com"));
+            mylink = "https://api.parse.com/1/functions/math"
+            var request = NSMutableURLRequest(URL:NSURL.URLWithString(mylink));
             request.HTTPMethod = "POST"
             request.setValue("X-Parse-Application-Id", forHTTPHeaderField: "u19o03YiCWzeonVWaTNueubVC8UupUiP7HVibWF1")
             request.setValue("X-Parse-REST-API-Key", forHTTPHeaderField: "BY0NkbNymGC0n0pK3TicPHIosksEdK2DG8M1uCzE")
+            var err: NSError?
+            request.HTTPBody = NSJSONSerialization.dataWithJSONObject(myparams, options: nil, error: &err)
+            println(request)
             request.setValue("Content-Type", forHTTPHeaderField: "application/json")
             var connection = NSURLConnection(request: request, delegate: self)
             connection.start()
+            println(connectionResponse)
             //TO DO: implement a function to catch the data using NSURLConnectionDelegate
         } else {
             myparams = ["key": "AIzaSyCSA2RH0SWp2HgP-WvssMT0lFY3V0tKdsk", "source": "en", "target": lang, "q": message]
@@ -325,6 +329,12 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     
     func connection(connection: NSURLConnection, didReceiveData data: NSData) {
         connectionResponse = data
+        let dat: AnyObject = data as AnyObject
+        var error: NSError?
+        var json: JSONValue?
+        if let jsonObj: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)  {
+            println(JSONValue(jsonObj!))
+        }
     }
 
     
