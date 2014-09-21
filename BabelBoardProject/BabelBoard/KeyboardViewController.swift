@@ -24,7 +24,7 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     let spaceHeight: CGFloat = 40
     let nextWidth: CGFloat = 50
     
-    
+    var connectionResponse: NSData?
     
     let DELETE_TAG = 1
     let SPACE_TAG = 0
@@ -298,9 +298,9 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
             mylink = "https://api.parse.com/1/functions/"
             var request = NSMutableURLRequest(URL:NSURL.URLWithString("www.apple.com"));
             request.HTTPMethod = "POST"
-            request.setValue("HEADER VALUE", forHTTPHeaderField: "HEADER KEY")
-            request.setValue("HEADER VALUE", forHTTPHeaderField: "HEADER KEY")
-            request.setValue("HEADER VALUE", forHTTPHeaderField: "HEADER KEY")
+            request.setValue("X-Parse-Application-Id", forHTTPHeaderField: "u19o03YiCWzeonVWaTNueubVC8UupUiP7HVibWF1")
+            request.setValue("X-Parse-REST-API-Key", forHTTPHeaderField: "BY0NkbNymGC0n0pK3TicPHIosksEdK2DG8M1uCzE")
+            request.setValue("Content-Type", forHTTPHeaderField: "application/json")
             var connection = NSURLConnection(request: request, delegate: self)
             connection.start()
             //TO DO: implement a function to catch the data using NSURLConnectionDelegate
@@ -310,20 +310,21 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
             Alamofire.request(.GET, mylink, parameters: myparams)
                 .responseJSON { (request, response, data, error) in
                     let jsonObject = JSONValue(data!)
+                    var foreignWord = ""
                     if (lang == "math") {
-                        let foreignWord = jsonObject["message"].string
+                        foreignWord = jsonObject["message"].string!
                     } else {
-                        let foreignWord = jsonObject["data"]["translations"][0]["translatedText"].string
+                        foreignWord = jsonObject["data"]["translations"][0]["translatedText"].string!
                     }
                     //TODO: FIX
-                    //self.spaceKey?.setTitle(foreignWord, forState: .Normal)
+                    self.spaceKey?.setTitle(foreignWord, forState: .Normal)
             }
         }
 
     }
     
     func connection(connection: NSURLConnection, didReceiveData data: NSData) {
-        
+        connectionResponse = data
     }
 
     
