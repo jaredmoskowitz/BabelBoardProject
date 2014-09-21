@@ -36,6 +36,7 @@ class KeyboardViewController: UIInputViewController {
     
     var shiftPosArr = [0]
     var numCharacters = 0
+    var untranslatedString = ""
     var spacePressed = false
     var spaceTimer: NSTimer?
     
@@ -49,6 +50,8 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 241.0/255, green: 235.0/255, blue: 221.0/255, alpha: 1)
         
+        untranslatedString = ""
+        
         let border = UIView(frame: CGRect(x:CGFloat(0.0), y:CGFloat(0.0), width:self.view.frame.size.width, height:CGFloat(0.5)))
         border.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         border.backgroundColor = UIColor(red: 210.0/255, green: 205.0/255, blue: 193.0/255, alpha: 1)
@@ -61,7 +64,6 @@ class KeyboardViewController: UIInputViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.translateIt("I love to hack", lang: "es")
 //        let expandedHeight: CGFloat = 500
 //        let heightConstraint = NSLayoutConstraint(item: self.view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 0.0, constant: CGFloat(expandedHeight))
 //        self.view .addConstraint(heightConstraint)
@@ -187,6 +189,9 @@ class KeyboardViewController: UIInputViewController {
             var proxy = self.textDocumentProxy as UITextDocumentProxy
             proxy.deleteBackward()
             numCharacters--
+            let stringLength = countElements(untranslatedString)
+            let substringIndex = stringLength - 1
+            untranslatedString = untranslatedString.substringToIndex(advance(untranslatedString.startIndex, substringIndex))
             var charactersSinceShift = shiftPosArr[shiftPosArr.count - 1]
             if charactersSinceShift > 0 {
                 charactersSinceShift--
@@ -219,13 +224,13 @@ class KeyboardViewController: UIInputViewController {
     
     func keyPressed(sender: UIButton) {
         var proxy = self.textDocumentProxy as UITextDocumentProxy
-        if spacePressed && sender.titleLabel?.text == " " {
+        var str = sender.titleLabel?.text
+        if spacePressed && str == " " {
             proxy.deleteBackward()
             proxy.insertText(". ")
             spacePressed = false
         }
         else {
-            var str = sender.titleLabel?.text
             proxy.insertText(str!)
             spacePressed = sender.titleLabel?.text == " "
             if spacePressed {
@@ -237,6 +242,8 @@ class KeyboardViewController: UIInputViewController {
                     repeats: false)
             }
         }
+        untranslatedString = untranslatedString + str!
+        self.translateIt(untranslatedString, lang: "es")
         
         numCharacters++
         shiftPosArr[shiftPosArr.count - 1]++
@@ -271,10 +278,9 @@ class KeyboardViewController: UIInputViewController {
     func translateIt(message: String, lang: String){
         Alamofire.request(.GET, "https://www.googleapis.com/language/translate/v2", parameters: ["key": "AIzaSyCSA2RH0SWp2HgP-WvssMT0lFY3V0tKdsk", "source": "en", "target": lang, "q": message])
             .responseJSON { (request, response, data, error) in
-                println(response)
-                println()
-                let jsonObject = JSONValue(data!)
-                println(jsonObject["data"]["translations"][0]["translatedText"])
+                 let jsonObject = JSONValue(data!)
+                let foreignWord = jsonObject["data"]["translations"][0]["translatedText"].string
+                self.spaceKey?.setTitle(foreignWord, forState: .Normal)
         }
     }
     
