@@ -10,9 +10,19 @@ import UIKit
 import Alamofire
 
 class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate {
-    let rows = [["2", "+", "3", "*", "t", "y", "u", "i", "o", "p"],
+    let rows = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
         ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
         ["z", "x", "c", "v", "b", "n", "m"]]
+    
+    let mathematicalRows = [["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+        ["+", "-", "*", "/", "(", ")", "^", "ln", "log"],
+        ["e", "pi", "%", "d", "b", "n", "m"]]
+    
+    let languages = ["es", "fr", "math", "la", "de"]
+    var currentRows: [Array<String>]!
+    var currentLanguageIndex = 0
+    
+    
     let topPadding: CGFloat = 12
     let keyHeight: CGFloat = 40
     let keyWidth: CGFloat = 26
@@ -24,7 +34,9 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     let spaceHeight: CGFloat = 40
     let nextWidth: CGFloat = 50
     
+    
     var connectionResponse: NSData?
+    
     
     let DELETE_TAG = 1
     let SPACE_TAG = 0
@@ -64,17 +76,10 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         self.view.addSubview(border)
         
         self.addKeys()
-        
-
-        
     }
     
     override func viewDidAppear(animated: Bool) {
-//        let expandedHeight: CGFloat = 500
-//        let heightConstraint = NSLayoutConstraint(item: self.view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 0.0, constant: CGFloat(expandedHeight))
-//        self.view .addConstraint(heightConstraint)
-//
-//        self.updateViewConstraints()
+
         
         var keyboardRowView = UIView(frame: CGRect(x: 0, y: -50, width: 320, height: 50))
         keyboardRowView.backgroundColor = UIColor.redColor()
@@ -82,23 +87,17 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     }
     
     
-//    func inputAccessoryView() -> UIView {
-//        var accessFrame = CGRectMake(0.0, 0.0, 768.0, 77.0)
-//        
-//        var newInputAccessoryView: UIView
-//        
-//        newInputAccessoryView = UIView(frame: accessFrame)
-//        newInputAccessoryView.backgroundColor = UIColor.blueColor()
-//
-//        return newInputAccessoryView
-//    }
+    func setLanguage(lang: String) {
+        
+    }
+    
     
     func addKeys() {
         self.addNextKeyboardKey()
         self.addDeleteKey()
         self.addQwertyKeys()
         self.addReturnKey()
-        self.addShiftKey()
+        self.addLanguageKey()
         self.addSpaceKey()
     }
     
@@ -169,11 +168,11 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     }
     
     
-    func addShiftKey() {
+    func addLanguageKey() {
         var thirdRowTopPadding: CGFloat = topPadding + (keyHeight + rowSpacing) * 2
         
         shiftKey = KeyButton(frame: CGRect(x: 2.0, y: thirdRowTopPadding, width:shiftWidth, height:shiftHeight))
-        shiftKey!.addTarget(self, action: Selector("shiftKeyPressed:"), forControlEvents: .TouchUpInside)
+        shiftKey!.addTarget(self, action: Selector("languageKeyPressed:"), forControlEvents: .TouchUpInside)
         shiftKey!.selected = true
         shiftKey!.setImage(UIImage(named: "shift.png"), forState:.Normal)
         shiftKey!.setImage(UIImage(named: "shift-selected.png"), forState:.Selected)
@@ -232,14 +231,15 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     }
     
     
-    func shiftKeyPressed(sender: UIButton) {
-        setShiftValue(!shiftKey!.selected)
-        if shiftKey!.selected {
-            shiftPosArr.append(0)
+    func languageKeyPressed(sender: UIButton) {
+        
+        if currentLanguageIndex >= countElements(languages) {
+            currentLanguageIndex = 0
+        } else {
+            currentLanguageIndex--
         }
-        else if shiftPosArr[shiftPosArr.count - 1] == 0 {
-            shiftPosArr.removeLast()
-        }
+        
+        self.setLanguage(languages[currentLanguageIndex])
         
         spacePressed = false
     }
@@ -252,8 +252,9 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         numCharacters++
         untranslatedStartIndex++
         untranslatedString += str!
-        self.translateIt(untranslatedString, lang: "math")
+        self.translateIt(untranslatedString, lang: "es")
         shiftPosArr[shiftPosArr.count - 1]++
+        spacePressed = false
         if (shiftKey!.selected) {
             self.setShiftValue(false)
         }
@@ -262,14 +263,41 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
     
     func spaceKeyPressed(sender: UIButton) {
         var proxy = self.textDocumentProxy as UITextDocumentProxy
-        proxy.insertText(" ")
-        untranslatedString += " "
+        if spacePressed {
+            self.translateInline()
+            spacePressed = false
+        } else {
+            proxy.insertText(" ")
+            untranslatedString += " "
+            numCharacters++
+            spacePressed = true
+            self.translateIt(untranslatedString, lang: "es")
+        }
     }
     
     func spaceTimeout() {
         spaceTimer = nil
         spacePressed = false
     }
+    
+    
+    func translateInline () {
+        var proxy = self.textDocumentProxy as UITextDocumentProxy
+        var end = countElements(untranslatedString)
+        //possible logic error here
+        while (untranslatedStartIndex <= end ) {
+            proxy.deleteBackward()
+            end--
+            numCharacters--
+        }
+        let str = spaceKey?.titleLabel?.text
+        proxy.insertText(str!)
+        numCharacters += countElements(untranslatedString)
+        untranslatedString = ""
+        untranslatedStartIndex = 0
+        spaceKey!.setTitle(" ", forState: .Normal)
+    }
+    
     
     func setShiftValue(shiftVal: Bool) {
         if shiftKey?.selected != shiftVal {
@@ -288,74 +316,43 @@ class KeyboardViewController: UIInputViewController, NSURLConnectionDataDelegate
         }
     }
     
-    
-    
     func translateIt(message: String, lang: String){
+        println("MESSAGE: " + message)
+        
         var myparams:[String:String] = [:]
-        var mylink = ""
+        var myLink = ""
         if (lang == "math") {
             myparams = ["message": message]
-            mylink = "https://api.parse.com/1/functions/math"
-            var request = NSMutableURLRequest(URL:NSURL.URLWithString(mylink));
+            myLink = "https://api.parse.com/1/functions/math"
+            var request = NSMutableURLRequest(URL:NSURL.URLWithString(myLink));
             request.HTTPMethod = "POST"
-            request.setValue("X-Parse-Application-Id", forHTTPHeaderField: "u19o03YiCWzeonVWaTNueubVC8UupUiP7HVibWF1")
-            request.setValue("X-Parse-REST-API-Key", forHTTPHeaderField: "BY0NkbNymGC0n0pK3TicPHIosksEdK2DG8M1uCzE")
+            request.setValue("u19o03YiCWzeonVWaTNueubVC8UupUiP7HVibWF1", forHTTPHeaderField: "X-Parse-Application-Id")
+            request.setValue("BY0NkbNymGC0n0pK3TicPHIosksEdK2DG8M1uCzE", forHTTPHeaderField: "X-Parse-REST-API-Key")
             var err: NSError?
             request.HTTPBody = NSJSONSerialization.dataWithJSONObject(myparams, options: nil, error: &err)
             println(request)
-            request.setValue("Content-Type", forHTTPHeaderField: "application/json")
+            request.setValue( "application/json", forHTTPHeaderField:"Content-Type")
             var connection = NSURLConnection(request: request, delegate: self)
             connection.start()
-            println(connectionResponse)
             //TO DO: implement a function to catch the data using NSURLConnectionDelegate
         } else {
             myparams = ["key": "AIzaSyCSA2RH0SWp2HgP-WvssMT0lFY3V0tKdsk", "source": "en", "target": lang, "q": message]
-            mylink = "https://www.googleapis.com/language/translate/v2"
-            Alamofire.request(.GET, mylink, parameters: myparams)
+            myLink = "https://www.googleapis.com/language/translate/v2"
+            Alamofire.request(.GET, myLink, parameters: myparams)
                 .responseJSON { (request, response, data, error) in
-                    let jsonObject = JSONValue(data!)
-                    var foreignWord = ""
-                    if (lang == "math") {
-                        foreignWord = jsonObject["message"].string!
+                    if (data != nil) {
+                        println(data)
+                        let jsonObject = JSONValue(data!)
+                        let foreignWord = jsonObject["data"]["translations"][0]["translatedText"].string!
+                        //TODO: FIX
+                        self.spaceKey?.setTitle(foreignWord, forState: .Normal)
                     } else {
-                        foreignWord = jsonObject["data"]["translations"][0]["translatedText"].string!
+                        println("DATA IS NULL")
                     }
-                    //TODO: FIX
-                    self.spaceKey?.setTitle(foreignWord, forState: .Normal)
             }
         }
-
+        
     }
-    
-    func connection(connection: NSURLConnection, didReceiveData data: NSData) {
-        connectionResponse = data
-        let dat: AnyObject = data as AnyObject
-        var error: NSError?
-        var json: JSONValue?
-        if let jsonObj: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)  {
-            println(JSONValue(jsonObj!))
-        }
-    }
-
-    
-    
-//    func translateIt(message: String, lang: String){
-//        Alamofire.request(.GET, "https://www.googleapis.com/language/translate/v2", parameters: ["key": "AIzaSyCSA2RH0SWp2HgP-WvssMT0lFY3V0tKdsk", "source": "en", "target": lang, "q": message])
-//            .responseJSON { (request, response, data, error) in
-//                 let jsonObject = JSONValue(data!)
-//                let foreignWord = jsonObject["data"]["translations"][0]["translatedText"].string
-//                self.spaceKey?.setTitle(foreignWord, forState: .Normal)
-//        }
-//    }
-//    
-//    func math(message: String){
-//        var myparams = ["X-Parse-Application-Id": "u19o03YiCWzeonVWaTNueubVC8UupUiP7HVibWF1", "X-Parse-REST-API-Key": "BY0NkbNymGC0n0pK3TicPHIosksEdK2DG8M1uCzE", "Content-Type": "application/json", "message": message]
-//        Alamofire.request(.GET, "https://api.parse.com/1/functions/math/get", parameters: myparams)
-//            .responseJSON { (request, response, string, error) in
-//                println(string)
-//        }
-//    }
-//    
     
     override func textWillChange(textInput: UITextInput) {
         // The app is about to change the document's contents. Perform any preparation here.
