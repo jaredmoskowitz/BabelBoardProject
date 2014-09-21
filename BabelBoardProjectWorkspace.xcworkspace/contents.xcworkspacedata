@@ -5,6 +5,9 @@
       location = "container:BabelBoardProject/BabelBoardProject.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../../Downloads/Alamofire-master/Alamofire.xcodeproj">
+      location = "group:../../Downloads/Alamofire/Alamofire.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../../Downloads/SwiftyJSON-master/SwiftyJSON.xcodeproj">
    </FileRef>
 </Workspace>
