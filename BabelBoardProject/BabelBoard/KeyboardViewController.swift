@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class KeyboardViewController: UIInputViewController {
     let rows = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -23,6 +24,9 @@ class KeyboardViewController: UIInputViewController {
     let spaceHeight: CGFloat = 40
     let nextWidth: CGFloat = 50
     
+    
+    var translationTextScrollView: UIScrollView?
+    var translationView: UIView?
     var buttons: Array<UIButton> = []
     var shiftKey: UIButton?
     var deleteKey: UIButton?
@@ -35,25 +39,51 @@ class KeyboardViewController: UIInputViewController {
     var spacePressed = false
     var spaceTimer: NSTimer?
     
+    let spacing: CGFloat = 4.0
+
     override func updateViewConstraints() {
         super.updateViewConstraints()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = UIColor(red: 241.0/255, green: 235.0/255, blue: 221.0/255, alpha: 1)
         
         let border = UIView(frame: CGRect(x:CGFloat(0.0), y:CGFloat(0.0), width:self.view.frame.size.width, height:CGFloat(0.5)))
         border.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         border.backgroundColor = UIColor(red: 210.0/255, green: 205.0/255, blue: 193.0/255, alpha: 1)
         self.view.addSubview(border)
-    
         
         self.addKeys()
+        
+
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.translateIt("I love to hack", lang: "es")
+//        let expandedHeight: CGFloat = 500
+//        let heightConstraint = NSLayoutConstraint(item: self.view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 0.0, constant: CGFloat(expandedHeight))
+//        self.view .addConstraint(heightConstraint)
+//
+//        self.updateViewConstraints()
+        
+        var keyboardRowView = UIView(frame: CGRect(x: 0, y: -50, width: 320, height: 50))
+        keyboardRowView.backgroundColor = UIColor.redColor()
+        self.view .addSubview(keyboardRowView)
     }
     
     
+//    func inputAccessoryView() -> UIView {
+//        var accessFrame = CGRectMake(0.0, 0.0, 768.0, 77.0)
+//        
+//        var newInputAccessoryView: UIView
+//        
+//        newInputAccessoryView = UIView(frame: accessFrame)
+//        newInputAccessoryView.backgroundColor = UIColor.blueColor()
+//
+//        return newInputAccessoryView
+//    }
     
     func addKeys() {
         self.addNextKeyboardKey()
@@ -98,7 +128,7 @@ class KeyboardViewController: UIInputViewController {
         var bottomRowTopPadding = topPadding + keyHeight * 3 + rowSpacing * 2 + 10
         
         spaceKey = KeyButton(frame: CGRect(x:(320.0 - spaceWidth) / 2, y: bottomRowTopPadding, width:spaceWidth, height:spaceHeight))
-        spaceKey!.setTitle(" ", forState: .Normal)
+        spaceKey!.setTitle("Space Bar", forState: .Normal)
         spaceKey!.addTarget(self, action: Selector("keyPressed:"), forControlEvents: .TouchUpInside)
         self.view.addSubview(spaceKey!)
     }
@@ -174,6 +204,7 @@ class KeyboardViewController: UIInputViewController {
         spacePressed = false
     }
     
+    
     func shiftKeyPressed(sender: UIButton) {
         setShiftValue(!shiftKey!.selected)
         if shiftKey!.selected {
@@ -236,8 +267,21 @@ class KeyboardViewController: UIInputViewController {
         }
     }
     
+    
+    func translateIt(message: String, lang: String){
+        Alamofire.request(.GET, "https://www.googleapis.com/language/translate/v2", parameters: ["key": "AIzaSyCSA2RH0SWp2HgP-WvssMT0lFY3V0tKdsk", "source": "en", "target": lang, "q": message])
+            .responseJSON { (request, response, data, error) in
+                println(response)
+                println()
+                let jsonObject = JSONValue(data!)
+                println(jsonObject["data"]["translations"][0]["translatedText"])
+        }
+    }
+    
+    
     override func textWillChange(textInput: UITextInput) {
         // The app is about to change the document's contents. Perform any preparation here.
+        
     }
     
     override func textDidChange(textInput: UITextInput) {
