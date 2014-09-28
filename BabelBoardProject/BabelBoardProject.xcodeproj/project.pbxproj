@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9943B82B19D78C440089C321 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9943B82819D78C2B0089C321 /* Alamofire.framework */; };
+		9943B82C19D78C650089C321 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9943B82819D78C2B0089C321 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E008E1B719CF0BDE00528E0E /* globe14.png in Resources */ = {isa = PBXBuildFile; fileRef = E008E1B619CF0BDE00528E0E /* globe14.png */; };
 		E008E1B919CF0C0100528E0E /* arrow415.png in Resources */ = {isa = PBXBuildFile; fileRef = E008E1B819CF0C0100528E0E /* arrow415.png */; };
 		E0D78D4319CD6968008E2132 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D4219CD6968008E2132 /* AppDelegate.swift */; };
@@ -18,12 +20,24 @@
 		E0D78D6B19CD6989008E2132 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */; };
 		E0D78D6E19CD6989008E2132 /* BabelBoard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E0D78D6619CD6989008E2132 /* BabelBoard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E0D78D7619CD6A07008E2132 /* KeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D78D7519CD6A07008E2132 /* KeyButton.swift */; };
-		E0DF157C19CE11D2000B85F4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0DF157B19CE11D2000B85F4 /* Alamofire.framework */; };
-		E0DF157D19CE11D8000B85F4 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0DF157B19CE11D2000B85F4 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E0DF158419CE29C1000B85F4 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DF158319CE29C1000B85F4 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9943B82719D78C2B0089C321 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9943B82219D78C2A0089C321 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
+			remoteInfo = Alamofire;
+		};
+		9943B82919D78C2B0089C321 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9943B82219D78C2A0089C321 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
+			remoteInfo = AlamofireTests;
+		};
 		E0D78D5319CD6968008E2132 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E0D78D3519CD6968008E2132 /* Project object */;
@@ -59,14 +73,15 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E0DF155919CE0FAA000B85F4 /* Copy Files */ = {
+		E0DF155919CE0FAA000B85F4 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9943B82C19D78C650089C321 /* Alamofire.framework in Copy Frameworks */,
 			);
-			name = "Copy Files";
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E0DF157919CE1125000B85F4 /* CopyFiles */ = {
@@ -75,13 +90,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E0DF157D19CE11D8000B85F4 /* Alamofire.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9943B82219D78C2A0089C321 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		E008E1B619CF0BDE00528E0E /* globe14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = globe14.png; sourceTree = "<group>"; };
 		E008E1B819CF0C0100528E0E /* arrow415.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow415.png; sourceTree = "<group>"; };
 		E0D78D3D19CD6968008E2132 /* BabelBoardProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabelBoardProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +113,6 @@
 		E0D78D6919CD6989008E2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0D78D6A19CD6989008E2132 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		E0D78D7519CD6A07008E2132 /* KeyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyButton.swift; sourceTree = "<group>"; };
-		E0DF157B19CE11D2000B85F4 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/BabelBoardProject-cpsznoglduwstmegwlspyjudwkun/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		E0DF158219CE29C1000B85F4 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
 		E0DF158319CE29C1000B85F4 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9943B82B19D78C440089C321 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,21 +137,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0DF157C19CE11D2000B85F4 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9943B82319D78C2A0089C321 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9943B82819D78C2B0089C321 /* Alamofire.framework */,
+				9943B82A19D78C2B0089C321 /* AlamofireTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E0D78D3419CD6968008E2132 = {
 			isa = PBXGroup;
 			children = (
-				E0DF157B19CE11D2000B85F4 /* Alamofire.framework */,
 				E0D78D3F19CD6968008E2132 /* BabelBoardProject */,
 				E0D78D5519CD6968008E2132 /* BabelBoardProjectTests */,
 				E0D78D6719CD6989008E2132 /* BabelBoard */,
 				E0D78D3E19CD6968008E2132 /* Products */,
+				9943B82219D78C2A0089C321 /* Alamofire.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -221,7 +244,7 @@
 				E0D78D3A19CD6968008E2132 /* Frameworks */,
 				E0D78D3B19CD6968008E2132 /* Resources */,
 				E0D78D7419CD6989008E2132 /* Embed App Extensions */,
-				E0DF155919CE0FAA000B85F4 /* Copy Files */,
+				E0DF155919CE0FAA000B85F4 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -302,6 +325,12 @@
 			mainGroup = E0D78D3419CD6968008E2132;
 			productRefGroup = E0D78D3E19CD6968008E2132 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9943B82319D78C2A0089C321 /* Products */;
+					ProjectRef = 9943B82219D78C2A0089C321 /* Alamofire.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E0D78D3C19CD6968008E2132 /* BabelBoardProject */,
@@ -310,6 +339,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9943B82819D78C2B0089C321 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 9943B82719D78C2B0089C321 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9943B82A19D78C2B0089C321 /* AlamofireTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AlamofireTests.xctest;
+			remoteRef = 9943B82919D78C2B0089C321 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E0D78D3B19CD6968008E2132 /* Resources */ = {
